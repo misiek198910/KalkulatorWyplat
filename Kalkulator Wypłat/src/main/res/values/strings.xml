@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Kalkulator Wypłat</string>
+    <string name="app_ad_banner_id">ca-app-pub-8612826840770530/8119060649</string>
+
+    <string name="amount">Podaj kwotę wynagrodzenia:</string>
+    <string name="editText_hint">4300</string>
+    <string name="gross">Kwota Brutto:</string>
+    <string name="net">Kwota Netto:</string>
+    <string name="calculate">Oblicz</string>
+    <string name="pit">Zwolniony z PIT</string>
+    <string name="agreement1">Umowa o pracę</string>
+    <string name="agreement2">Umowa o zlecenie</string>
+    <string name="agreement3">Umowa o dzieło</string>
+    <string name="zero">0</string>
+    <string name="net_gross">Netto/Brutto</string>
+    <string name="more">Szczegóły</string>
+    <string name="koszty_przychodu">Koszty uzyskania przychodu:</string>
+    <string name="chorobowe">Uwzględnij chorobowe:</string>
+    <string name="information_0">Informacja</string>
+    <string name="information_1">Zaznacz, jeśli korzystasz ze zwolnienia z podatku PIT (np. dla młodych do 26. roku życia).</string>
+    <string name="information_2">Odznacz, jeśli nie chcesz opłacać dobrowolnego ubezpieczenia chorobowego.(Tylko umowa zlecenie)</string>
+    <string name="information_3">Wybierz odpowiednią stawkę kosztów uzyskania przychodu: 0%, 20%, lub 50%.</string>
+    <string name="information_def">Brak dostępnych informacji.</string>
+
+    <string name="detail_tytul">Szczegóły wynagrodzenia</string>
+    <string name="detail_skladki_emerytalne">Składka emerytalna</string>
+    <string name="detail_skladki_rentowe">Składka rentowa</string>
+    <string name="detail_skladki_chorobowe">Składka chorobowa</string>
+    <string name="detail_skladki_zdrowotne">Składka zdrowotna</string>
+    <string name="detail_koszty_uzyskania">Koszt uzyskania przychodu</string>
+    <string name="detail_podstawa_opodatkowania">Podstawa opodatkowania</string>
+
+    <string-array name="koszty_uzyskania_array">
+        <item>Zwykłe (20%)</item>
+        <item>Podwyższone (50%)</item>
+        <item>Brak (0%)</item>
+    </string-array>
+</resources>
