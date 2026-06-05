@@ -30,6 +30,8 @@
     <string name="detail_koszty_uzyskania">Koszt uzyskania przychodu</string>
     <string name="detail_podstawa_opodatkowania">Podstawa opodatkowania</string>
 
+    <string name="app_version">Wersja %1$s</string>
+
     <string-array name="koszty_uzyskania_array">
         <item>Zwykłe (20%)</item>
         <item>Podwyższone (50%)</item>
