@@ -1,9 +1,11 @@
 package com.example.kalkulatorwyplat.ui.activities
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -39,18 +41,34 @@ import com.google.android.ump.ConsentRequestParameters
 import com.google.android.ump.UserMessagingPlatform
 import com.google.firebase.analytics.FirebaseAnalytics
 
+// --- Nowe importy dla In-App Updates ---
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.appupdate.AppUpdateOptions
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.UpdateAvailability
+
 class MainActivity : ComponentActivity() {
     private lateinit var consentInformation: ConsentInformation
     private val appOpenAdManager = AppOpenAdManager()
     private var isMobileAdsInitializeCalled = false
     private var isAdFlowCompleted = false
+    private lateinit var appUpdateManager: AppUpdateManager
+    private val updateLauncher = registerForActivityResult(
+        ActivityResultContracts.StartIntentSenderForResult()
+    ) { result ->
+        if (result.resultCode != RESULT_OK) {
+            Log.w("InAppUpdate", "Aktualizacja anulowana lub nie powiodła się. Kod: ${result.resultCode}")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        checkForUpdate()
+
         setContent {
-            val analytics = FirebaseAnalytics.getInstance(this)
 
             KalkulatorWyplatTheme {
                 val theme = MaterialTheme.colorScheme
@@ -113,6 +131,38 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+    private fun checkForUpdate() {
+        appUpdateManager = AppUpdateManagerFactory.create(this)
+        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+
+        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
+            ) {
+                appUpdateManager.startUpdateFlowForResult(
+                    appUpdateInfo,
+                    updateLauncher,
+                    AppUpdateOptions.newBuilder(AppUpdateType.IMMEDIATE).build()
+                )
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (::appUpdateManager.isInitialized) {
+            appUpdateManager.appUpdateInfo.addOnSuccessListener { appUpdateInfo ->
+                if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
+                    appUpdateManager.startUpdateFlowForResult(
+                        appUpdateInfo,
+                        updateLauncher,
+                        AppUpdateOptions.newBuilder(AppUpdateType.IMMEDIATE).build()
+                    )
+                }
+            }
+        }
+    }
 
     private fun gatherConsentAndShowAd(onComplete: () -> Unit) {
         val params = ConsentRequestParameters.Builder().build()
@@ -162,7 +212,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-// --- ZAKTUALIZOWANY WIDOK SPLASH SCREENA ---
 @Composable
 fun SplashScreen() {
     val theme = MaterialTheme.colorScheme
