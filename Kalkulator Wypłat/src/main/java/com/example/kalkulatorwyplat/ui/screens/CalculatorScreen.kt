@@ -36,6 +36,7 @@ import com.example.kalkulatorwyplat.R
 import com.example.kalkulatorwyplat.data.SalaryResult
 import com.example.kalkulatorwyplat.ui.components.AppInfoDialog
 import com.example.kalkulatorwyplat.ui.components.ResultPanel
+import com.example.kalkulatorwyplat.ui.components.YearlyResultPanel
 import com.example.kalkulatorwyplat.viewmodel.CalculatorViewModel
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
@@ -86,7 +87,6 @@ fun CalculatorScreen(
         showDialog = true
     }
 
-    // Pobieramy teksty informacyjne poza lambdą onClick
     val infoPitTitle = stringResource(R.string.info_pit_title)
     val infoPitMsg = stringResource(R.string.info_pit_msg)
     val infoSickTitle = stringResource(R.string.info_sick_title)
@@ -348,6 +348,26 @@ fun CalculatorContent(viewModel: CalculatorViewModel, theme: ColorScheme, option
         }
 
         Spacer(modifier = Modifier.height(24.dp))
+
+        Button(
+            onClick = { viewModel.calculateYearly() },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = theme.primary, contentColor = theme.onPrimary)
+        ) {
+            Text(
+                text = stringResource(id = R.string.btn_yearly_simulation),
+                fontWeight = FontWeight.Bold
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        viewModel.yearlyCalculationResult?.let { yearlyResult ->
+            YearlyResultPanel(result = yearlyResult)
+            Spacer(modifier = Modifier.height(16.dp))
+        }
 
         if (viewModel.calculationResults.isNotEmpty()) {
             Text(

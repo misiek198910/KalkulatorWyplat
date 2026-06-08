@@ -79,4 +79,16 @@
     <string name="btn_restore_purchase">Przywróć zakup</string>
     <string name="premium_disclaimer">Subskrypcja odnawia się automatycznie. Możesz zrezygnować w dowolnym momencie w ustawieniach Google Play.</string>
 
+    <string name="btn_yearly_simulation">Symulacja Roczna</string>
+    <string name="yearly_summary_title">Podsumowanie Roczne</string>
+    <string name="yearly_average_netto">Średnie Netto / mc</string>
+    <string name="yearly_total_gross">Suma Brutto</string>
+    <string name="yearly_total_netto">Suma Netto (Do ręki)</string>
+    <string name="yearly_total_zus">Suma ZUS</string>
+    <string name="yearly_total_health">Suma Zdrowotne</string>
+    <string name="yearly_total_tax">Suma PIT</string>
+    <string name="tax_threshold_alert">Przekroczono próg podatkowy w miesiącu: %1$d</string>
+    <string name="tax_threshold_safe">Próg podatkowy (120 000 zł) nie został przekroczony</string>
+    <string name="month_prefix">Miesiąc</string>
+
 </resources>
