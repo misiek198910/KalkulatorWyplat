@@ -3,4 +3,80 @@
 
     <string name="app_version">Wersja %1$s</string>
 
+    <string name="app_title">Kalkulator Wypłat</string>
+    <string name="settings">Ustawienia</string>
+    <string name="kup_basic">Podstawowe (250 zł)</string>
+    <string name="kup_elevated">Podwyższone (300 zł)</string>
+
+    <!-- Informacje w oknach dialogowych -->
+    <string name="info_pit_title">Zwolnienie z PIT</string>
+    <string name="info_pit_msg">Dla osób poniżej 26. roku życia przychody (do kwoty 85 528 zł rocznie) są zwolnione z podatku dochodowego.</string>
+    <string name="info_sick_title">Składka chorobowa</string>
+    <string name="info_sick_msg">Dobrowolna przy zleceniu, obowiązkowa przy etacie. Daje prawo do L4.</string>
+    <string name="info_tax_free_title">Kwota wolna od podatku</string>
+    <string name="info_tax_free_msg">Ulga podatkowa (PIT-2), zazwyczaj 300 zł miesięcznie.</string>
+    <string name="info_ppk_title">PPK</string>
+    <string name="info_ppk_msg">Pracownicze Plany Kapitałowe. Wpływa na potrącenie z netto i podatek.</string>
+
+    <!-- Etykiety i przełączniki -->
+    <string name="label_pit_exempt">Zwolnienie z PIT (do 26 lat)</string>
+    <string name="label_sick_leave">Dobrowolna składka chorobowa</string>
+    <string name="label_advanced_options">Opcje zaawansowane (PPK, Kwota wolna)</string>
+    <string name="label_tax_free_amount">Uwzględnij kwotę wolną (300 zł)</string>
+    <string name="label_ppk">Uczestnictwo w PPK (2%)</string>
+    <string name="label_kup">Koszty uzyskania przychodu</string>
+    <string name="input_net_amount">Wpisz kwotę Netto</string>
+    <string name="input_gross_amount">Wpisz kwotę Brutto</string>
+    <string name="label_calculate_from_net">Licz od\nNetto</string>
+    <string name="label_results">Wyniki:</string>
+    <string name="desc_info_icon">Info</string>
+
+    <!-- Szczegóły wynagrodzenia -->
+    <string name="summary_components">Podsumowanie składników</string>
+    <string name="gross_amount">Kwota Brutto</string>
+    <string name="pension_contribution">Składka emerytalna</string>
+    <string name="disability_contribution">Składka rentowa</string>
+    <string name="sick_contribution">Składka chorobowa</string>
+    <string name="health_insurance">Ubezpieczenie zdrowotne</string>
+    <string name="income_costs">Koszty uzyskania przychodu</string>
+    <string name="tax_base">Podstawa opodatkowania</string>
+    <string name="tax_advance">Zaliczka na podatek (PIT)</string>
+    <string name="net_amount_to_hand">DO RĘKI (NETTO)</string>
+    <string name="pln_format">%.2f PLN</string>
+
+    <string name="desc_back">Wróć</string>
+    <string name="header_taxes">PODATKI</string>
+    <string name="config_rates_title">Konfiguracja stawek (%)</string>
+    <string name="config_rates_desc">Kliknij, aby edytować stawki ZUS/PIT</string>
+    <string name="config_rates_info">Zmień wartości ręcznie, jeśli rząd wprowadzi zmiany w prawie podatkowym.</string>
+    <string name="rate_pension">Składka Emerytalna (%)</string>
+    <string name="rate_disability">Składka Rentowa (%)</string>
+    <string name="rate_sick">Składka Chorobowa (%)</string>
+    <string name="rate_health">Składka Zdrowotna (%)</string>
+    <string name="rate_pit">Podatek PIT (%)</string>
+    <string name="btn_restore_defaults">Przywróć domyślne</string>
+
+    <string name="header_application">APLIKACJA</string>
+    <string name="btn_premium_subscription">Subskrypcja Premium</string>
+    <string name="btn_app_info">Informacje o aplikacji</string>
+    <string name="btn_privacy_policy">Polityka prywatności</string>
+    <string name="btn_buy_coffee">Postaw kawę</string>
+
+    <string name="dialog_about_title">O aplikacji</string>
+    <string name="dialog_about_message">Kalkulator Wypłat v1.0\n\nProfesjonalne narzędzie do wyliczania wynagrodzeń w oparciu o aktualne przepisy polskiego ładu podatkowego.\n\nAutor: Michał Schmude</string>
+
+    <string name="title_premium">Wersja Premium</string>
+    <string name="premium_unlock_title">Odblokuj pełen potencjał</string>
+    <string name="premium_unlock_desc">Zyskaj dostęp do zaawansowanych funkcji i wspieraj rozwój aplikacji.</string>
+    <string name="premium_benefit_no_ads">Brak reklam w całej aplikacji</string>
+    <string name="subscription_status_label">STATUS SUBSKRYPCJI</string>
+    <string name="status_active">AKTYWNA</string>
+    <string name="status_inactive">NIEAKTYWNA</string>
+    <string name="btn_manage_subscription">Zarządzaj subskrypcją</string>
+    <string name="toast_no_play_store">Nie znaleziono sklepu Play</string>
+    <string name="loading_prices">Pobieranie cen…</string>
+    <string name="toast_checking_purchases">Sprawdzam zakupy…</string>
+    <string name="btn_restore_purchase">Przywróć zakup</string>
+    <string name="premium_disclaimer">Subskrypcja odnawia się automatycznie. Możesz zrezygnować w dowolnym momencie w ustawieniach Google Play.</string>
+
 </resources>

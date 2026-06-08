@@ -71,7 +71,8 @@ import com.example.kalkulatorwyplat.viewmodel.CalculatorViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
-    viewModel: CalculatorViewModel, onNavigateToPrivacyPolicy: () -> Unit,
+    viewModel: CalculatorViewModel,
+    onNavigateToPrivacyPolicy: () -> Unit,
     onNavigateToSubscription: () -> Unit,
     onBackClick: () -> Unit
 ) {
@@ -88,7 +89,7 @@ fun SettingsScreen(
             TopAppBar(
                 title = {
                     Text(
-                        "Ustawienia",
+                        stringResource(id = R.string.settings),
                         color = theme.onBackground,
                         fontWeight = FontWeight.Bold
                     )
@@ -97,7 +98,7 @@ fun SettingsScreen(
                     IconButton(onClick = onBackClick) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Wróć",
+                            contentDescription = stringResource(id = R.string.desc_back),
                             tint = theme.onBackground
                         )
                     }
@@ -114,7 +115,7 @@ fun SettingsScreen(
                 .padding(16.dp)
         ) {
             Text(
-                text = "PODATKI",
+                text = stringResource(id = R.string.header_taxes),
                 style = MaterialTheme.typography.labelSmall,
                 color = theme.primary,
                 fontWeight = FontWeight.Bold,
@@ -138,14 +139,14 @@ fun SettingsScreen(
                     ) {
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = "Konfiguracja stawek (%)",
+                                text = stringResource(id = R.string.config_rates_title),
                                 style = MaterialTheme.typography.titleMedium,
                                 color = theme.onSurface,
                                 fontWeight = FontWeight.SemiBold
                             )
                             if (!isRatesExpanded) {
                                 Text(
-                                    text = "Kliknij, aby edytować stawki ZUS/PIT",
+                                    text = stringResource(id = R.string.config_rates_desc),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = theme.onSurfaceVariant
                                 )
@@ -165,24 +166,23 @@ fun SettingsScreen(
                     ) {
                         Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
                             Text(
-                                "Zmień wartości ręcznie, jeśli rząd wprowadzi zmiany w prawie podatkowym.",
+                                text = stringResource(id = R.string.config_rates_info),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = theme.onSurfaceVariant,
                                 modifier = Modifier.padding(bottom = 12.dp)
                             )
-                            RateInput("Składka Emerytalna (%)", viewModel.currentTaxRates.emerytalna.toString()) { viewModel.updateRate("emerytalna", it) }
-                            RateInput("Składka Rentowa (%)", viewModel.currentTaxRates.rentowa.toString()) { viewModel.updateRate("rentowa", it) }
-                            RateInput("Składka Chorobowa (%)", viewModel.currentTaxRates.chorobowa.toString()) { viewModel.updateRate("chorobowa", it) }
-                            RateInput("Składka Zdrowotna (%)", viewModel.currentTaxRates.zdrowotna.toString()) { viewModel.updateRate("zdrowotna", it) }
-                            RateInput("Podatek PIT (%)", viewModel.currentTaxRates.pit.toString()) { viewModel.updateRate("pit", it) }
+                            RateInput(stringResource(id = R.string.rate_pension), viewModel.currentTaxRates.emerytalna.toString()) { viewModel.updateRate("emerytalna", it) }
+                            RateInput(stringResource(id = R.string.rate_disability), viewModel.currentTaxRates.rentowa.toString()) { viewModel.updateRate("rentowa", it) }
+                            RateInput(stringResource(id = R.string.rate_sick), viewModel.currentTaxRates.chorobowa.toString()) { viewModel.updateRate("chorobowa", it) }
+                            RateInput(stringResource(id = R.string.rate_health), viewModel.currentTaxRates.zdrowotna.toString()) { viewModel.updateRate("zdrowotna", it) }
+                            RateInput(stringResource(id = R.string.rate_pit), viewModel.currentTaxRates.pit.toString()) { viewModel.updateRate("pit", it) }
 
-                            // --- NOWY PRZYCISK: Przywróć domyślne ---
                             Spacer(modifier = Modifier.height(8.dp))
                             TextButton(
                                 onClick = { viewModel.resetTaxRates() },
-                                modifier = Modifier.align(Alignment.End) // Wyrównanie do prawej strony
+                                modifier = Modifier.align(Alignment.End)
                             ) {
-                                Text("Przywróć domyślne", color = theme.primary, fontWeight = FontWeight.Bold)
+                                Text(stringResource(id = R.string.btn_restore_defaults), color = theme.primary, fontWeight = FontWeight.Bold)
                             }
                         }
                     }
@@ -193,7 +193,7 @@ fun SettingsScreen(
 
             // --- SEKCJA APLIKACJI ---
             Text(
-                text = "APLIKACJA",
+                text = stringResource(id = R.string.header_application),
                 style = MaterialTheme.typography.labelSmall,
                 color = theme.primary,
                 fontWeight = FontWeight.Bold,
@@ -208,7 +208,7 @@ fun SettingsScreen(
             ) {
                 Column {
                     SettingsButton(
-                        text = "Subskrypcja Premium",
+                        text = stringResource(id = R.string.btn_premium_subscription),
                         icon = Icons.Default.WorkspacePremium,
                         theme = theme,
                         highlight = true,
@@ -216,14 +216,14 @@ fun SettingsScreen(
                     )
                     Divider(color = theme.outlineVariant.copy(alpha = 0.3f), thickness = 1.dp, modifier = Modifier.padding(horizontal = 16.dp))
                     SettingsButton(
-                        text = "Informacje o aplikacji",
+                        text = stringResource(id = R.string.btn_app_info),
                         icon = Icons.Default.Info,
                         theme = theme,
                         onClick = { showInfoDialog = true }
                     )
                     Divider(color = theme.outlineVariant.copy(alpha = 0.3f), thickness = 1.dp, modifier = Modifier.padding(horizontal = 16.dp))
                     SettingsButton(
-                        text = "Polityka prywatności",
+                        text = stringResource(id = R.string.btn_privacy_policy),
                         icon = Icons.Default.PrivacyTip,
                         theme = theme,
                         onClick = {
@@ -232,7 +232,7 @@ fun SettingsScreen(
                     )
                     Divider(color = theme.outlineVariant.copy(alpha = 0.3f), thickness = 1.dp, modifier = Modifier.padding(horizontal = 16.dp))
                     SettingsButton(
-                        text = "Postaw kawę",
+                        text = stringResource(id = R.string.btn_buy_coffee),
                         icon = Icons.Default.Coffee,
                         theme = theme,
                         onClick = { uriHandler.openUri("https://ko-fi.com/michals") }
@@ -252,8 +252,8 @@ fun SettingsScreen(
 
     if (showInfoDialog) {
         AppInfoDialog(
-            title = "O aplikacji",
-            message = "Kalkulator Wypłat v1.0\n\nProfesjonalne narzędzie do wyliczania wynagrodzeń w oparciu o aktualne przepisy polskiego ładu podatkowego.\n\nAutor: Michał Schmude",
+            title = stringResource(id = R.string.dialog_about_title),
+            message = stringResource(id = R.string.dialog_about_message),
             onDismiss = { showInfoDialog = false },
             primaryColor = theme.primary
         )

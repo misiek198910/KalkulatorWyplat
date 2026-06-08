@@ -25,12 +25,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.example.kalkulatorwyplat.BuildConfig
+import com.example.kalkulatorwyplat.R
 import com.example.kalkulatorwyplat.data.SalaryResult
 import com.example.kalkulatorwyplat.ui.components.AppInfoDialog
 import com.example.kalkulatorwyplat.ui.components.ResultPanel
@@ -56,7 +58,12 @@ fun CalculatorScreen(
     val context = LocalContext.current
     val theme = MaterialTheme.colorScheme
     var expanded by remember { mutableStateOf(false) }
-    val options = listOf("Podstawowe (250 zł)", "Podwyższone (300 zł)")
+
+    val options = listOf(
+        stringResource(id = R.string.kup_basic),
+        stringResource(id = R.string.kup_elevated)
+    )
+
     val sheetState = rememberModalBottomSheetState()
     var showSheet by remember { mutableStateOf(false) }
     var selectedResult by remember { mutableStateOf<SalaryResult?>(null) }
@@ -66,8 +73,6 @@ fun CalculatorScreen(
     var dialogMessage by remember { mutableStateOf("") }
     var mInterstitialAd by remember { mutableStateOf<InterstitialAd?>(null) }
     val analytics = remember { FirebaseAnalytics.getInstance(context) }
-
-    // USUNIĘTO: adShowCounter
 
     LaunchedEffect(Unit) {
         loadInterstitialAd(context) { ad ->
@@ -81,6 +86,16 @@ fun CalculatorScreen(
         showDialog = true
     }
 
+    // Pobieramy teksty informacyjne poza lambdą onClick
+    val infoPitTitle = stringResource(R.string.info_pit_title)
+    val infoPitMsg = stringResource(R.string.info_pit_msg)
+    val infoSickTitle = stringResource(R.string.info_sick_title)
+    val infoSickMsg = stringResource(R.string.info_sick_msg)
+    val infoTaxFreeTitle = stringResource(R.string.info_tax_free_title)
+    val infoTaxFreeMsg = stringResource(R.string.info_tax_free_msg)
+    val infoPpkTitle = stringResource(R.string.info_ppk_title)
+    val infoPpkMsg = stringResource(R.string.info_ppk_msg)
+
     Scaffold(
         modifier = modifier.fillMaxSize(),
         containerColor = theme.background,
@@ -88,7 +103,7 @@ fun CalculatorScreen(
             TopAppBar(
                 title = {
                     Text(
-                        "Kalkulator Wypłat",
+                        stringResource(R.string.app_title),
                         color = theme.onBackground,
                         fontWeight = FontWeight.Bold
                     )
@@ -96,7 +111,7 @@ fun CalculatorScreen(
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = theme.background),
                 actions = {
                     IconButton(onClick = onNavigateToSettings) {
-                        Icon(Icons.Default.Settings, "Ustawienia", tint = theme.primary)
+                        Icon(Icons.Default.Settings, stringResource(R.string.settings), tint = theme.primary)
                     }
                 }
             )
@@ -124,22 +139,10 @@ fun CalculatorScreen(
                 },
                 onInfoClick = { type ->
                     when (type) {
-                        "PIT" -> showInfo(
-                            "Zwolnienie z PIT",
-                            "Dla osób poniżej 26. roku życia przychody (do kwoty 85 528 zł rocznie) są zwolnione z podatku dochodowego."
-                        )
-                        "CHOROBOWE" -> showInfo(
-                            "Składka chorobowa",
-                            "Dobrowolna przy zleceniu, obowiązkowa przy etacie. Daje prawo do L4."
-                        )
-                        "KWOTA_WOLNA" -> showInfo(
-                            "Kwota wolna od podatku",
-                            "Ulga podatkowa (PIT-2), zazwyczaj 300 zł miesięcznie."
-                        )
-                        "PPK" -> showInfo(
-                            "PPK",
-                            "Pracownicze Plany Kapitałowe. Wpływa na potrącenie z netto i podatek."
-                        )
+                        "PIT" -> showInfo(infoPitTitle, infoPitMsg)
+                        "CHOROBOWE" -> showInfo(infoSickTitle, infoSickMsg)
+                        "KWOTA_WOLNA" -> showInfo(infoTaxFreeTitle, infoTaxFreeMsg)
+                        "PPK" -> showInfo(infoPpkTitle, infoPpkMsg)
                     }
                 }
             )
@@ -160,7 +163,6 @@ fun CalculatorScreen(
             onDismissRequest = {
                 showSheet = false
 
-                // ZMIANA: Pokazujemy reklamę za KAŻDYM razem, bez sprawdzania licznika
                 mInterstitialAd?.let { ad ->
                     ad.fullScreenContentCallback = object : FullScreenContentCallback() {
                         override fun onAdDismissedFullScreenContent() {
@@ -199,7 +201,7 @@ fun CalculatorContent(viewModel: CalculatorViewModel, theme: ColorScheme, option
         ) {
             Column(modifier = Modifier.padding(12.dp)) {
                 ConfigRow(
-                    "Zwolnienie z PIT (do 26 lat)",
+                    stringResource(R.string.label_pit_exempt),
                     viewModel.isPitExempt,
                     { viewModel.isPitExempt = it; viewModel.calculate() },
                     { onInfoClick("PIT") },
@@ -207,7 +209,7 @@ fun CalculatorContent(viewModel: CalculatorViewModel, theme: ColorScheme, option
                 )
                 Divider(color = theme.background, thickness = 1.dp)
                 ConfigRow(
-                    "Dobrowolna składka chorobowa",
+                    stringResource(R.string.label_sick_leave),
                     viewModel.isSickLeaveEnabled,
                     { viewModel.isSickLeaveEnabled = it; viewModel.calculate() },
                     { onInfoClick("CHOROBOWE") },
@@ -225,7 +227,7 @@ fun CalculatorContent(viewModel: CalculatorViewModel, theme: ColorScheme, option
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        "Opcje zaawansowane (PPK, Kwota wolna)",
+                        stringResource(R.string.label_advanced_options),
                         style = MaterialTheme.typography.labelMedium,
                         color = theme.primary,
                         fontWeight = FontWeight.Bold
@@ -244,7 +246,7 @@ fun CalculatorContent(viewModel: CalculatorViewModel, theme: ColorScheme, option
                 ) {
                     Column {
                         ConfigRow(
-                            "Uwzględnij kwotę wolną (300 zł)",
+                            stringResource(R.string.label_tax_free_amount),
                             viewModel.isTaxFreeAmountEnabled,
                             { viewModel.isTaxFreeAmountEnabled = it; viewModel.calculate() },
                             { onInfoClick("KWOTA_WOLNA") },
@@ -252,7 +254,7 @@ fun CalculatorContent(viewModel: CalculatorViewModel, theme: ColorScheme, option
                         )
                         Divider(color = theme.background, thickness = 1.dp)
                         ConfigRow(
-                            "Uczestnictwo w PPK (2%)",
+                            stringResource(R.string.label_ppk),
                             viewModel.isPpkEnabled,
                             { viewModel.isPpkEnabled = it; viewModel.calculate() },
                             { onInfoClick("PPK") },
@@ -268,7 +270,7 @@ fun CalculatorContent(viewModel: CalculatorViewModel, theme: ColorScheme, option
                                 value = viewModel.selectedOption,
                                 onValueChange = {},
                                 readOnly = true,
-                                label = { Text("Koszty uzyskania przychodu") },
+                                label = { Text(stringResource(R.string.label_kup)) },
                                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                                 modifier = Modifier
                                     .menuAnchor()
@@ -310,7 +312,7 @@ fun CalculatorContent(viewModel: CalculatorViewModel, theme: ColorScheme, option
             OutlinedTextField(
                 value = viewModel.amount,
                 onValueChange = { viewModel.amount = it; viewModel.calculate() },
-                label = { Text(if (viewModel.isCalculatingFromNetto) "Wpisz kwotę Netto" else "Wpisz kwotę Brutto") },
+                label = { Text(if (viewModel.isCalculatingFromNetto) stringResource(R.string.input_net_amount) else stringResource(R.string.input_gross_amount)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                 modifier = Modifier.weight(1f),
                 singleLine = true,
@@ -324,7 +326,7 @@ fun CalculatorContent(viewModel: CalculatorViewModel, theme: ColorScheme, option
             Spacer(modifier = Modifier.width(16.dp))
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    "Licz od\nNetto",
+                    stringResource(R.string.label_calculate_from_net),
                     style = MaterialTheme.typography.labelSmall,
                     color = theme.onSurfaceVariant,
                     fontSize = 10.sp,
@@ -349,7 +351,7 @@ fun CalculatorContent(viewModel: CalculatorViewModel, theme: ColorScheme, option
 
         if (viewModel.calculationResults.isNotEmpty()) {
             Text(
-                "Wyniki:",
+                stringResource(R.string.label_results),
                 style = MaterialTheme.typography.titleMedium,
                 color = theme.onBackground,
                 modifier = Modifier.align(Alignment.Start)
@@ -389,7 +391,7 @@ fun ConfigRow(label: String, checked: Boolean, onCheckedChange: (Boolean) -> Uni
         IconButton(onClick = onInfoClick) {
             Icon(
                 Icons.Default.Info,
-                contentDescription = "Info",
+                contentDescription = stringResource(R.string.desc_info_icon),
                 tint = theme.onSurfaceVariant
             )
         }
@@ -405,21 +407,21 @@ fun SalaryDetailsContent(result: SalaryResult, theme: ColorScheme) {
             .padding(bottom = 32.dp)
     ) {
         Text(result.type, style = MaterialTheme.typography.headlineSmall, color = theme.onSurface)
-        Text("Podsumowanie składników", color = theme.onSurfaceVariant)
+        Text(stringResource(R.string.summary_components), color = theme.onSurfaceVariant)
         Spacer(modifier = Modifier.height(24.dp))
-        DetailItem("Kwota Brutto", result.gross, theme, isHeader = true)
+        DetailItem(stringResource(R.string.gross_amount), result.gross, theme, isHeader = true)
         Divider(
             color = theme.outlineVariant,
             thickness = 1.dp,
             modifier = Modifier.padding(vertical = 8.dp)
         )
-        DetailItem("Składka emerytalna", result.sEmery, theme)
-        DetailItem("Składka rentowa", result.sRent, theme)
-        DetailItem("Składka chorobowa", result.sChor, theme)
-        DetailItem("Ubezpieczenie zdrowotne", result.uZdro, theme)
-        DetailItem("Koszty uzyskania przychodu", result.kUzyPrz, theme)
-        DetailItem("Podstawa opodatkowania", result.poDoch, theme)
-        DetailItem("Zaliczka na podatek (PIT)", result.zalPoddoch, theme)
+        DetailItem(stringResource(R.string.pension_contribution), result.sEmery, theme)
+        DetailItem(stringResource(R.string.disability_contribution), result.sRent, theme)
+        DetailItem(stringResource(R.string.sick_contribution), result.sChor, theme)
+        DetailItem(stringResource(R.string.health_insurance), result.uZdro, theme)
+        DetailItem(stringResource(R.string.income_costs), result.kUzyPrz, theme)
+        DetailItem(stringResource(R.string.tax_base), result.poDoch, theme)
+        DetailItem(stringResource(R.string.tax_advance), result.zalPoddoch, theme)
         Divider(
             color = theme.outlineVariant,
             thickness = 1.dp,
@@ -431,12 +433,12 @@ fun SalaryDetailsContent(result: SalaryResult, theme: ColorScheme) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                "DO RĘKI (NETTO)",
+                stringResource(R.string.net_amount_to_hand),
                 style = MaterialTheme.typography.titleMedium,
                 color = theme.onSurface
             )
             Text(
-                String.format("%.2f PLN", result.netto),
+                stringResource(R.string.pln_format, result.netto),
                 style = MaterialTheme.typography.headlineSmall,
                 color = theme.primary,
                 fontWeight = FontWeight.Bold
@@ -459,22 +461,11 @@ fun DetailItem(label: String, value: Float, theme: ColorScheme, isHeader: Boolea
             fontWeight = if (isHeader) FontWeight.Bold else FontWeight.Normal
         )
         Text(
-            String.format("%.2f PLN", value),
+            stringResource(R.string.pln_format, value),
             color = if (isHeader) theme.onSurface else theme.onSurfaceVariant,
             fontWeight = if (isHeader) FontWeight.Bold else FontWeight.Normal
         )
     }
-}
-
-@Composable
-fun AdBanner() {
-    AndroidView(modifier = Modifier.fillMaxWidth(), factory = { context ->
-        AdView(context).apply {
-            setAdSize(AdSize.BANNER)
-            adUnitId = "ca-app-pub-3940256099942544/6300978111"
-            loadAd(AdRequest.Builder().build())
-        }
-    })
 }
 
 fun loadInterstitialAd(context: Context, onAdLoaded: (InterstitialAd?) -> Unit) {

@@ -22,11 +22,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.kalkulatorwyplat.R
 import com.example.kalkulatorwyplat.billing.BillingManager
 import com.example.kalkulatorwyplat.billing.SubscriptionManager
 
@@ -34,7 +36,7 @@ import com.example.kalkulatorwyplat.billing.SubscriptionManager
 @Composable
 fun SubscriptionScreen(
     navController: NavController,
-    subscriptionManager: SubscriptionManager // --- NOWY PARAMETR ---
+    subscriptionManager: SubscriptionManager
 ) {
     val context = LocalContext.current
     val activity = context as? Activity
@@ -61,7 +63,7 @@ fun SubscriptionScreen(
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                         Text(
-                            text = "Wersja Premium",
+                            text = stringResource(id = R.string.title_premium),
                             color = goldColor,
                             fontWeight = FontWeight.Bold
                         )
@@ -71,7 +73,7 @@ fun SubscriptionScreen(
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Wróć",
+                            contentDescription = stringResource(id = R.string.desc_back), // Pobieramy z poprzednio utworzonego wpisu
                             tint = theme.onBackground
                         )
                     }
@@ -101,7 +103,7 @@ fun SubscriptionScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Odblokuj pełen potencjał",
+                        text = stringResource(id = R.string.premium_unlock_title),
                         color = theme.onSurface,
                         fontSize = 22.sp,
                         fontWeight = FontWeight.Bold,
@@ -109,7 +111,7 @@ fun SubscriptionScreen(
                     )
 
                     Text(
-                        text = "Zyskaj dostęp do zaawansowanych funkcji i wspieraj rozwój aplikacji.",
+                        text = stringResource(id = R.string.premium_unlock_desc),
                         modifier = Modifier.padding(vertical = 12.dp),
                         color = theme.onSurfaceVariant,
                         fontSize = 15.sp,
@@ -122,7 +124,7 @@ fun SubscriptionScreen(
                             .background(Color.Black.copy(alpha = 0.3f), RoundedCornerShape(16.dp))
                             .padding(16.dp)
                     ) {
-                        BenefitRow("Brak reklam w całej aplikacji", theme)
+                        BenefitRow(stringResource(id = R.string.premium_benefit_no_ads), theme)
                     }
 
                     Divider(
@@ -132,14 +134,14 @@ fun SubscriptionScreen(
                     )
 
                     Text(
-                        text = "STATUS SUBSKRYPCJI",
+                        text = stringResource(id = R.string.subscription_status_label),
                         color = theme.onSurfaceVariant,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold
                     )
 
                     Text(
-                        text = if (isPremium) "AKTYWNA" else "NIEAKTYWNA",
+                        text = if (isPremium) stringResource(id = R.string.status_active) else stringResource(id = R.string.status_inactive),
                         color = if (isPremium) Color(0xFF4CAF50) else theme.onSurface,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
@@ -151,14 +153,14 @@ fun SubscriptionScreen(
                     // --- LOGIKA PRZYCISKÓW ZAKUPU ---
                     if (isPremium) {
                         SubscriptionButton(
-                            text = "Zarządzaj subskrypcją",
+                            text = stringResource(id = R.string.btn_manage_subscription),
                             theme = theme,
                             onClick = {
                                 val url = "https://play.google.com/store/account/subscriptions?package=${context.packageName}"
                                 try {
                                     context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
                                 } catch (e: Exception) {
-                                    Toast.makeText(context, "Nie znaleziono sklepu Play", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context, context.getString(R.string.toast_no_play_store), Toast.LENGTH_SHORT).show()
                                 }
                             }
                         )
@@ -189,7 +191,7 @@ fun SubscriptionScreen(
                             // Widok ładowania cen
                             CircularProgressIndicator(color = theme.primary)
                             Spacer(modifier = Modifier.height(8.dp))
-                            Text("Pobieranie cen...", color = theme.onSurfaceVariant, fontSize = 12.sp)
+                            Text(stringResource(id = R.string.loading_prices), color = theme.onSurfaceVariant, fontSize = 12.sp)
                         }
                     }
 
@@ -198,13 +200,13 @@ fun SubscriptionScreen(
                     TextButton(onClick = {
                         // Ręczne wymuszenie sprawdzenia zakupów
                         subscriptionManager.billingManager.queryPurchasesAsync()
-                        Toast.makeText(context, "Sprawdzam zakupy...", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.toast_checking_purchases), Toast.LENGTH_SHORT).show()
                     }) {
-                        Text("Przywróć zakup", color = theme.primary)
+                        Text(stringResource(id = R.string.btn_restore_purchase), color = theme.primary)
                     }
 
                     Text(
-                        text = "Subskrypcja odnawia się automatycznie. Możesz zrezygnować w dowolnym momencie w ustawieniach Google Play.",
+                        text = stringResource(id = R.string.premium_disclaimer),
                         modifier = Modifier.padding(top = 24.dp),
                         color = theme.onSurfaceVariant,
                         fontSize = 11.sp,
